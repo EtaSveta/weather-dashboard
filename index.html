@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>Weather Channel</title>
+</head>
+<body class="flex-column min-100-vh">
+    <header class="row no-gutters">
+        <h1 class="text-center">Weather Dashboard</h1>
+    </header>
+
+    <main class="row justify-space-between">
+        <div class="col-12 col-md-2 ">
+            <div class="card">
+                <h2 class="">Search for a City:</h2>
+                <form id="city-form" class="">
+                    <label class="form-label" for="city">City Name</label>
+                    <input name="cityname" id="cityname" type="text" autofocus="true" class="form-input"/>
+                    <button type="submit" class="btn">Search</button>
+                </form>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime, libero. Nobis est nemo aspernatur, doloremque, quaerat pariatur maiores corrupti animi cupiditate unde velit eaque obcaecati blanditiis voluptatibus rem provident ab.</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-10">
+            <div class="todays-weather">
+                <h3 class="city-and-date" id="city-and-date">City (9/6/22)</h3>
+                <div class="icon">
+                    <img src="" alt="" />
+                </div>  
+                <div class="temp" id="temp">70°F</div> 
+                <div class="humidity" id ="humidity">45%</div> 
+                <div class="wind-speed">6 mps</div>
+                <div class="uv-index">0.47</div>
+            </div>
+            <div class="future-forecast justify-space-between">
+                <div class="card">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    
+
+<script src = "assets/script.js"></script>
+</body>
+</html>
