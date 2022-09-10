@@ -7,13 +7,9 @@ var apiKey2 = "456382b69ba78bc0d18ae825d9b6baff";
 
 
 
-var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=456382b69ba78bc0d18ae825d9b6baff";
 
-            fetch(forecastUrl).then(function(response) {
-                response.json().then(function(data) {
-                    console.log(data);
-                });
-            });  
+
+            
 
                   
 
@@ -27,7 +23,13 @@ var getLatAndLon = function(cityName) {
             var {lat} = data[0];
             var {lon} = data[0];
             console.log(lon);
+            var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=456382b69ba78bc0d18ae825d9b6baff";
 
+            fetch(forecastUrl).then(function(response) {
+                response.json().then(function(data) {
+                    console.log(data);
+                });
+            });  
                   
 
         });
