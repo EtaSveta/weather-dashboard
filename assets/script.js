@@ -2,26 +2,53 @@ var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#cityname");
 var todaysCityName = document.querySelector("#city-and-date");
 var iconEl = document.querySelector(".icon");
-var futureCardEl = document.querySelector(".future-card");
+var futureForecastContainer = document.querySelector(".future-forecast-container");
+
 
 var apiKey = "8fa763faa40c3ad06afec6d0f80623e3";
 var apiKey2 = "456382b69ba78bc0d18ae825d9b6baff";
 
 
+function saveRecentSearch(city) {
+
+    var list = JSON.parse(localStorage.getItem("cities")) || [];
+
+    // TODO: check if this is an array
+    // What if the city is empty
+    list.push(city);
+
+    localStorage.setItem("cities", JSON.stringify(list))
+}
+
+function loadRecentCities() {
+    var cities = JSON.parse(localStorage.getItem("cities"));
+
+
+    console.log("Cities: ", cities);
+
+    // TODO: Display the list as buttons under recent search
+
+}
+
+loadRecentCities();
+
 
 var formSubmit = function(event) {
+    event.preventDefault();    
+
     var city = cityInputEl.value.trim();
+
+    saveRecentSearch(city);
 
     if (city) {
         getCityWeather(city);
         getCityForecast(city);
         console.log(getCityForecast)
-        cityInputEl = "";
+        cityInputEl.value = "";
     }
     else {
         alert("Please enter a city name")
     }
-    event.preventDefault();    
 };
 
 
@@ -65,21 +92,54 @@ var getCityForecast = function (cityForecast) {
 };
 
 var displayCityForecast = function(data, searchCity) {
-    todaysCityName.textContent = searchCity;
+    futureForecastContainer.innerHTML = "";
+
+    todaysCityName.textContent = searchCity.toUpperCase();
     var dailyList = data.list;
-    console.log(dailyList)
+    console.log(dailyList);
+    // var iconsOnScreen = [];
+    // console.log(iconsOnScreen)
+
     for (var i = 6; i < dailyList.length; i = i+8) {
-    var {icon} = dailyList[i].weather[0];
-    console.log(icon)
-    
-    var iconOnScreen = document.createElement("div");
-    iconOnScreen.innerHTML = "<div class='future-icon-container'><img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
-    futureCardEl.appendChild(iconOnScreen);
+        var dailyWeather = dailyList[i];
+   
+    // console.log(dailyList[i]);
+    // iconsOnScreen.push(icon);
+    createForecastCards(dailyWeather);
 
     }
+    
+    
+    
+
+    
 
 }
 
+var createForecastCards = function (daily) {
+
+    var {icon} = daily.weather[0];
+    var {temp} = daily.main;
+    console.log(temp)
+    console.log(icon);
+    console.log("Daily: ", daily);
+    var iconOut = document.createElement("div");
+    iconOut.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
+    iconOut.classList = "class='future-icon-container'"
+    
+    var tempOut = document.createElement("span");
+    tempOut.innerHTML = "Temperature: " + temp;
+    console.log(tempOut)
+
+
+
+
+    var futureCardDiv = document.createElement("div");
+    futureCardDiv.classList = "col mb-3 future-card-div"
+    futureCardDiv.appendChild(iconOut);
+    futureCardDiv.appendChild(tempOut);
+    futureForecastContainer.appendChild(futureCardDiv)
+}
 
 
 
@@ -98,3 +158,10 @@ cityFormEl.addEventListener("submit", formSubmit);
 
 //  5 day forecast city + 5 days imperial (US system)
 //https://api.openweathermap.org/data/2.5/forecast?q=London&appid=456382b69ba78bc0d18ae825d9b6baff&units=imperial
+
+
+//daily weather using lat and lon
+//https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,current,minutely,alerts&appid=456382b69ba78bc0d18ae825d9b6baff
+
+//geocoding for a city
+// http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=8fa763faa40c3ad06afec6d0f80623e3
