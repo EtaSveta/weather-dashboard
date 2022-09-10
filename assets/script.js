@@ -2,7 +2,7 @@ var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#cityname");
 var todaysCityName = document.querySelector("#city-and-date");
 var iconEl = document.querySelector(".icon");
-var futureCardEl = document.querySelector(".future-card-div");
+var futureCardEl = document.querySelector(".future-card");
 
 var apiKey = "8fa763faa40c3ad06afec6d0f80623e3";
 var apiKey2 = "456382b69ba78bc0d18ae825d9b6baff";
@@ -52,34 +52,33 @@ var displayCityWeather = function(data, searchInput) {
 
 };
     
-// var getCityForecast = function (cityForecast) {
-//     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityForecast + "&appid=456382b69ba78bc0d18ae825d9b6baff&units=imperial";
-//     fetch(forecastUrl).then(function(response) {
-//     response.json().then(function(data){
-//         displayCityForecast(data, cityForecast)
-//         console.log(data);
-//     })
+var getCityForecast = function (cityForecast) {
+    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityForecast + "&appid=456382b69ba78bc0d18ae825d9b6baff&units=imperial";
+    fetch(forecastUrl).then(function(response) {
+    response.json().then(function(data){
+        displayCityForecast(data, cityForecast)
+        console.log(data);
+    })
 
-// })
+})
 
-// };
+};
 
-// var displayCityForecast = function(data, searchCity) {
-//     todaysCityName.textContent = searchCity;
-//     var dailyList = data.list;
-//     console.log(dailyList)
-//     for (var i = 6; i < dailyList.length; i = i+8) {
-//     var {icon} = dailyList[i].weather[0];
-//     console.log(icon)
+var displayCityForecast = function(data, searchCity) {
+    todaysCityName.textContent = searchCity;
+    var dailyList = data.list;
+    console.log(dailyList)
+    for (var i = 6; i < dailyList.length; i = i+8) {
+    var {icon} = dailyList[i].weather[0];
+    console.log(icon)
     
-//     var iconOnScreen = document.createElement("div");
-//     iconOnScreen.className = "card"
-//     iconOnScreen.innerHTML = "<div class='future-forecast'><img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
-//     futureCardEl.appendChild(iconOnScreen);
+    var iconOnScreen = document.createElement("div");
+    iconOnScreen.innerHTML = "<div class='future-icon-container'><img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
+    futureCardEl.appendChild(iconOnScreen);
 
-//     }
+    }
 
-// }
+}
 
 
 
