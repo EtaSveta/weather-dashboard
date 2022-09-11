@@ -72,27 +72,27 @@ var getWeather = function(cityName) {
     var latAndlonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + apiKey;
 
     fetch(latAndlonUrl).then(function(response) {
-        
-            response.json().then(function(data) {
-                console.log(data);
-                var {lat} = data[0];
-                var {lon} = data[0];
-                var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=" + apiKey2 + "&units=imperial";
+    console.log(response.status)    
+            response.json().then(if(data != []) {function(data) {
 
-                fetch(forecastUrl).then(function(response) {
-                    if (response.ok) {
+                    console.log(data);
+                    var {lat} = data[0];
+                    var {lon} = data[0];
+                    var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=" + apiKey2 + "&units=imperial";
 
-                        response.json().then(function(data) {
-                            console.log(data);
-                            displayCityWeather(data, cityName);
-                            displayCityForecast(data)
-                        });
-                    } else {
-                        alert ("Error: City Not Found")
-                    }     
-                });  
+                    
+                    fetch(forecastUrl).then(function(response) {
+                        
+
+                            response.json().then(function(data) {
+                                console.log(data);
+                                displayCityWeather(data, cityName);
+                                displayCityForecast(data)
+                            });
+                    });  
+                }     
             });
-          
+        
     });
 };
 
