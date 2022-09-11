@@ -3,7 +3,7 @@ var cityInputEl = document.querySelector("#cityname");
 var todaysCityName = document.querySelector("#city-and-date");
 var iconEl = document.querySelector(".icon");
 var futureForecastContainer = document.querySelector(".future-forecast-container");
-var recentInquiresUl = document.querySelector("recent-inquires-ul");
+var recentInquiresUl = document.querySelector(".recent-inquires-ul");
 
 
 var apiKey = "8fa763faa40c3ad06afec6d0f80623e3";
@@ -23,14 +23,19 @@ function saveRecentSearch(city) {
 function loadRecentCities() {
     var cities = JSON.parse(localStorage.getItem("cities"));
 
-    console.log("Cities: ", cities);
-    // for (i = 0; i < cities.length; i++) {
-    //     var searchHistory = document.createElement("li");
-    //     searchHistory.innerHTML = cities[i];
-    //     recentInquiresUl.appendChild(searchHistory)
-        
+    if (!cities) {
+        cities = [];
+    }
 
-    // }
+    else { 
+        console.log("Cities: ", cities);
+        for (i = 0; i < cities.length; i++) {
+            var searchHistory = document.createElement("li");
+            searchHistory.innerHTML = cities[i];
+            recentInquiresUl.prepend(searchHistory)
+        }
+
+    }
 
 
 }
@@ -43,7 +48,7 @@ var formSubmit = function(event) {
     
     var city = cityInputEl.value.trim();
 
-    saveRecentSearch(city);
+    
 
     // saveRecentSearch(city);
 
@@ -52,6 +57,7 @@ var formSubmit = function(event) {
         
         console.log(city)
         cityInputEl.value = "";
+        saveRecentSearch(city);
     }
     else {
         alert("Please enter a city name")
@@ -66,20 +72,27 @@ var getWeather = function(cityName) {
     var latAndlonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + apiKey;
 
     fetch(latAndlonUrl).then(function(response) {
-        response.json().then(function(data) {
-            console.log(data);
-            var {lat} = data[0];
-            var {lon} = data[0];
-            var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=" + apiKey2 + "&units=imperial";
+        
+            response.json().then(function(data) {
+                console.log(data);
+                var {lat} = data[0];
+                var {lon} = data[0];
+                var forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +  lon +  "&exclude=hourly,current,minutely,alerts&appid=" + apiKey2 + "&units=imperial";
 
-            fetch(forecastUrl).then(function(response) {
-                response.json().then(function(data) {
-                    console.log(data);
-                    displayCityWeather(data, cityName);
-                    displayCityForecast(data)
-                });
-            });  
-        });
+                fetch(forecastUrl).then(function(response) {
+                    if (response.ok) {
+
+                        response.json().then(function(data) {
+                            console.log(data);
+                            displayCityWeather(data, cityName);
+                            displayCityForecast(data)
+                        });
+                    } else {
+                        alert ("Error: City Not Found")
+                    }     
+                });  
+            });
+          
     });
 };
 
