@@ -1,6 +1,7 @@
 var today = moment().format("MM-DD-YYYY");
 console.log(today)
 
+
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#cityname");
 var todaysCityName = document.querySelector("#city-and-date");
@@ -131,11 +132,16 @@ var displayCityForecast = function(data) {
 } 
 
 var createForecastCards = function (daily) {
-    
+    var forecastDate = moment().add(1, "days").format("MM-DD-YYYY");
+    console.log(forecastDate); 
+    console.log(i);
     var {icon} = daily.weather[0];
     var {day} = daily.temp;
     var {wind_speed} = daily;
     var {humidity} = daily;
+
+    var forecastDateOut = document.createElement("h4");
+    forecastDateOut.innerHTML = forecastDate;
 
     var iconOut = document.createElement("div");
     iconOut.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
@@ -152,10 +158,12 @@ var createForecastCards = function (daily) {
 
     var futureCardDiv = document.createElement("div");
     futureCardDiv.classList = "col mb-3 future-card-div"
+    futureCardDiv.appendChild(forecastDateOut);
     futureCardDiv.appendChild(iconOut);
     futureCardDiv.appendChild(tempOut);
     futureCardDiv.appendChild(speedOut);
     futureCardDiv.appendChild(humidityOut);
+    
     futureForecastContainer.appendChild(futureCardDiv)
 }
 
