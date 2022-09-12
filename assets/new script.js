@@ -1,9 +1,13 @@
+var today = moment().format("MM-DD-YYYY");
+console.log(today)
+
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#cityname");
 var todaysCityName = document.querySelector("#city-and-date");
 var iconEl = document.querySelector(".icon");
 var futureForecastContainer = document.querySelector(".future-forecast-container");
 var recentInquiresUl = document.querySelector(".recent-inquires-ul");
+var searchContentEl = document.querySelector(".search-bar");
 
 
 var apiKey = "8fa763faa40c3ad06afec6d0f80623e3";
@@ -32,12 +36,10 @@ function loadRecentCities() {
         for (i = 0; i < cities.length; i++) {
             var searchHistory = document.createElement("li");
             searchHistory.innerHTML = cities[i];
+            searchHistory.classList = "clicked-city"
             recentInquiresUl.prepend(searchHistory)
         }
-
     }
-
-
 }
 
 loadRecentCities();
@@ -57,7 +59,7 @@ var formSubmit = function(event) {
         
         console.log(city)
         cityInputEl.value = "";
-        saveRecentSearch(city);
+        
     }
     else {
         alert("Please enter a city name")
@@ -73,7 +75,8 @@ var getWeather = function(cityName) {
 
     fetch(latAndlonUrl).then(function(response) {
     console.log(response.status)    
-            response.json().then(if(data != []) {function(data) {
+            response.json().then(function(data) {
+                if(data.length >0 ) {
 
                     console.log(data);
                     var {lat} = data[0];
@@ -87,12 +90,15 @@ var getWeather = function(cityName) {
                             response.json().then(function(data) {
                                 console.log(data);
                                 displayCityWeather(data, cityName);
-                                displayCityForecast(data)
+                                displayCityForecast(data);
+                                saveRecentSearch(cityName);
                             });
                     });  
-                }     
+                } else {
+                    alert("Your search did not return any result. Please try a different city name")
+                }
             });
-        
+    
     });
 };
 
@@ -100,7 +106,7 @@ var getWeather = function(cityName) {
 var displayCityWeather = function(data, searchInput) {
     //clear old content
     console.log(data);
-    todaysCityName.textContent = searchInput.toUpperCase();
+    todaysCityName.textContent = searchInput.toUpperCase() + " (" + today + ")";
     var {icon} = data.daily[0].weather[0];
     var {day} = data.daily[0].temp;
     var {humidity} = data.daily[0];
@@ -125,7 +131,7 @@ var displayCityForecast = function(data) {
 } 
 
 var createForecastCards = function (daily) {
-
+    
     var {icon} = daily.weather[0];
     var {day} = daily.temp;
     var {wind_speed} = daily;
@@ -154,8 +160,22 @@ var createForecastCards = function (daily) {
 }
 
 
-cityFormEl.addEventListener("submit", formSubmit);
+var fromSearchHistory = function(event){
+    var targetEl = event.target;
+    var cityText = targetEl.textContent;
+    console.log(cityText)
 
+     // city "li" was clicked
+     if (targetEl.matches(".clicked-city")) {
+        
+        getWeather(cityText);
+     }
+
+    }     
+
+
+cityFormEl.addEventListener("submit", formSubmit);
+searchContentEl.addEventListener("click", fromSearchHistory);
 
 //daily weather using lat and lon
 //https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly,current,minutely,alerts&appid=456382b69ba78bc0d18ae825d9b6baff
