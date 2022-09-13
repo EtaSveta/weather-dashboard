@@ -36,7 +36,7 @@ function loadRecentCities() {
         console.log("Cities: ", cities);
         for (i = 0; i < cities.length; i++) {
             var searchHistory = document.createElement("li");
-            searchHistory.innerHTML = cities[i];
+            searchHistory.innerHTML = cities[i].toUpperCase();
             searchHistory.classList = "clicked-city"
             recentInquiresUl.prepend(searchHistory)
         }
@@ -118,7 +118,19 @@ var displayCityWeather = function(data, searchInput) {
     document.querySelector(".temp").innerText = "Temp: " + Math.round(day) + "°F";
     document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
     document.querySelector(".wind-speed").innerText = "Wind speed: " + Math.round(wind_speed) + " mph";
-    document.querySelector(".uv-index").innerText = "UV Index: " + uvi;
+    var uviIndex = document.querySelector(".uv-index");
+    uviIndex.innerText = "UV Index: " + uvi;
+    if (uvi < 6) {
+        uviIndex.classList = "uv-index green"
+    }
+    else if (uvi < 8) {
+        uviIndex.classList = "uv-index yellow"
+    }
+    else {
+        uviIndex.classList = "uv-index red"
+    }
+
+    
 };
 
 var displayCityForecast = function(data) {
@@ -132,16 +144,20 @@ var displayCityForecast = function(data) {
 } 
 
 var createForecastCards = function (daily) {
-    var forecastDate = moment().add(1, "days").format("MM-DD-YYYY");
-    console.log(forecastDate); 
-    console.log(i);
+    
+    var {dt} = daily;
+    
+    let timeUTC = new Date(dt * 1000);
+    var timeOut = timeUTC.toLocaleDateString("en-US");
+    console.log(timeOut)
+    
     var {icon} = daily.weather[0];
     var {day} = daily.temp;
     var {wind_speed} = daily;
     var {humidity} = daily;
 
     var forecastDateOut = document.createElement("h4");
-    forecastDateOut.innerHTML = forecastDate;
+    forecastDateOut.innerHTML = timeOut;
 
     var iconOut = document.createElement("div");
     iconOut.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
@@ -157,7 +173,7 @@ var createForecastCards = function (daily) {
     humidityOut.innerHTML = "Humidity: " + humidity + "%"; 
 
     var futureCardDiv = document.createElement("div");
-    futureCardDiv.classList = "col mb-3 future-card-div"
+    futureCardDiv.classList = "col mb-3 future-card-div card text-white bg-secondary p-3 "
     futureCardDiv.appendChild(forecastDateOut);
     futureCardDiv.appendChild(iconOut);
     futureCardDiv.appendChild(tempOut);
