@@ -23,6 +23,10 @@ https://etasveta.github.io/weather-dashboard/
 * API used: 
 
    https://openweathermap.org/api/one-call-api
+   
+* UV index scale resourse
+
+   https://www.aimatmelanoma.org/melanoma-101/prevention/what-is-ultraviolet-uv-radiation/#:~:text=The%20UV%20Index%20Scale&text=UV%20Index%200%2D2%20means,harm%20from%20unprotected%20sun%20exposure.
 
    
 
