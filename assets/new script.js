@@ -59,7 +59,7 @@ var formSubmit = function(event) {
 // function to get weather for the city
 var getWeather = function(cityName) {
     //API call to get city's latitude and longtitude
-    var latAndlonUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + apiKey;
+    var latAndlonUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + apiKey;
 
     fetch(latAndlonUrl).then(function(response) {
     console.log(response.status)    
@@ -102,7 +102,7 @@ var displayCityWeather = function(data, searchInput) {
     var {wind_speed} = data.daily[0];
     var {uvi} = data.daily[0];
     
-    document.querySelector("#icon-sourse").src = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    document.querySelector("#icon-sourse").src = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
     document.querySelector(".temp").innerText = "Temp: " + Math.round(day) + "°F";
     document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
     document.querySelector(".wind-speed").innerText = "Wind speed: " + Math.round(wind_speed) + " mph";
@@ -147,7 +147,7 @@ var createForecastCards = function (daily) {
     forecastDateOut.innerHTML = timeOut;
 
     var iconOut = document.createElement("div");
-    iconOut.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + "@2x.png' />";
+    iconOut.innerHTML = "<img src='https://openweathermap.org/img/wn/" + icon + "@2x.png' />";
     iconOut.classList = "class='future-icon-container'";
     
     var tempOut = document.createElement("span");
