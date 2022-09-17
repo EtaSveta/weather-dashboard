@@ -1,12 +1,5 @@
 header {
-    display: flex; 
     justify-content: center;
-    
-    text-align: center;
-}
-
-header h1 {
-    position: relative;
 }
 
 h2 {
@@ -32,7 +25,7 @@ main {
 
 .clicked-city {
     list-style: none;
-    
+    cursor: pointer;
 }
 
 .today-style {
@@ -82,16 +75,12 @@ main {
 
 .green {
     background-color: rgb(84, 134, 84, 0.8);
-    
 }
 
 .yellow {
     background-color: rgb(244, 244, 144);
-    
 }
 
 .red {
     background-color: rgb(219, 106, 106);
-    
-
 }
